@@ -10,12 +10,24 @@ class Button:
         self.width = width
         self.height = height
         self.text = self.font.render(text, 1, pygame.Color('White'))
+        self.size = self.text.get_size()
+        self.rect = pygame.Rect(self.x, self.y, self.size[0], self.size[1])
 
     def show_button(self):
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill('orange')
         self.surface.blit(self.text, (0,0))
         screen.blit(self.surface, (self.x, self.y))
+
+    def click(self, event):
+        x,y = pygame.mouse.get_pos()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if pygame.mouse.get_pressed()[0]:
+                if self.rect.collidepoint(x, y):
+                    pygame.quit()
+
+
+
 
 
 def draw_grid():
@@ -47,7 +59,7 @@ def main():
     # updates display to screen
     pygame.display.flip()
 
-
+    global running
     running = True  # variable that allows screen to continue playing
 
     while running:  # while loop that allows screen to display
@@ -55,6 +67,7 @@ def main():
 
             if event.type == pygame.QUIT:
                 running = False
+            button1.click(event)
         button1.show_button()
         button2.show_button()
         button3.show_button()
