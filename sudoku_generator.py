@@ -121,7 +121,9 @@ class SudokuGenerator:
     '''
 
     def is_valid(self, row, col, num):
-        pass
+        if self.valid_in_box(row, col, num) and self.valid_in_col(col, num) and self.valid_in_row(row, num):
+            return True
+        return False
 
     '''
     Fills the specified 3x3 box with values
