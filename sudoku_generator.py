@@ -1,10 +1,5 @@
-import math, random
-
-"""
-This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
-https://www.geeksforgeeks.org/program-sudoku-generator/
-
-"""
+import math
+import random
 
 
 class SudokuGenerator:
@@ -108,7 +103,6 @@ class SudokuGenerator:
                     return False
         return True
 
-
     '''
     Determines if it is valid to enter num at (row, col) in the board
     This is done by checking that num is unused in the appropriate, row, column, and box
@@ -137,7 +131,10 @@ class SudokuGenerator:
     '''
 
     def fill_box(self, row_start, col_start):
-        pass
+        for index, row in enumerate(self.board[row_start:row_start+2:]):
+            for sub_index, cell in enumerate(row[col_start:col_start+2:]):
+                if not any(self.board[index][sub_index]):
+                    self.board[index][sub_index] = random.randrange(1, 10)
 
     '''
     Fills the three boxes along the main diagonal of the board
@@ -148,7 +145,9 @@ class SudokuGenerator:
     '''
 
     def fill_diagonal(self):
-        pass
+        self.fill_box(0, 0)
+        self.fill_box(3, 3)
+        self.fill_box(6, 6)
 
     '''
     DO NOT CHANGE
