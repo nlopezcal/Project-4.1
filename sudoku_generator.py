@@ -216,7 +216,11 @@ class SudokuGenerator:
     '''
 
     def remove_cells(self):
-        pass
+        for i in range(self.remove_cells()):
+            x = random.randrange(1, self.row_length + 1)
+            y = random.randrange(1, self.row_length + 1)
+            if self.board[x][y]:
+                self.board[x][y] = []
 
 
 '''
