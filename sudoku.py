@@ -1,5 +1,8 @@
+import time
+
 import pygame
 from constants import *
+#from sudoku_generator import *
 pygame.init()
 
 
@@ -17,6 +20,7 @@ class Cell:
 
     def set_sketched_value(self, value):
         # Setter for this cell’s sketched value
+        self.value = value
         pass
 
     def draw(self):
@@ -28,9 +32,8 @@ class Cell:
         self.y = SQUARE_SIZE * self.col + SQUARE_SIZE // 2
 
         if self.value in range(10):
-            screen_text(f'{self.value}', (self.x, self.y), 65)
+            return screen_text(f'{self.value}', (self.x, self.y), 65)
 
-        pass
 
 
 
@@ -62,53 +65,73 @@ class Board:
 
         pygame.draw.line(screen, (0, 0, 0), (0, 600), (600, 600), )
 
-    def select(self, row, col):
+    def select(self, row, col, color= RED):
         # Marks the cell at (row, col) in the board as the current selected cell.
         # Once a cell has been selected, the user can edit its value or sketched value.
+        row -= 1
+        col -= 1
+        row = SQUARE_SIZE * row
+        col = SQUARE_SIZE * col
+        pygame.draw.rect(screen, color, pygame.Rect(row, col, 66, 66))
+        Board(self.difficulty).draw_grid()
+        return row and col
+
+
         pass
 
     def click(self, x, y):
         # If a tuple of (x, y) coordinates is within the displayed board, this function returns a tuple of the (row, col)
         # of the cell which was clicked. Otherwise, this function returns None.
-        x, y = pygame.mouse.get_pos()
-        return x and y
+        self.x, self.y = x, y
+        return self.x, self.y
 
-    def clear(self):
+    def clear(self, row, cell):
         # Clears  the  value  cell.  Note  that  the  user  can  only  remove  the  cell  values  and  sketched  value  that  are
         # filled by themselves.
+        Board(self.difficulty).select(row, cell, WHITE)
         pass
 
-    def sketch(self, value):
+    def sketch(self, value, row, col):
         # Sets the sketched value of the current selected cell equal to user entered value.
         # It will be displayed at the top left corner of the cell using the draw() function.
+        row -= 1
+        col -= 1
+        x = (SQUARE_SIZE * row) + 10
+        y = (SQUARE_SIZE * col) + 15
+        return screen_text(f'{value}', (x, y), 30, GREY)
         pass
+
 
     def place_number(self, value):
         # Sets the value of the current selected cell equal to user entered value.
         # Called when the user presses the Enter key.
-        x, y = pygame.mouse.get_pos()
-        Cell(value, x , y, screen).draw()
-
         pass
 
     def reset_to_original(self):
         # Reset all cells in the board to their original values (0 if cleared, otherwise the corresponding digit).
+        screen.fill(WHITE)
+        Board(self.difficulty).draw_grid()
+        #place random numbers
         pass
 
     def is_full(self):
         # Returns a Boolean value indicating whether the board is full or not.
+        #fixme
         pass
 
     def update_board(self):
         # Updates the underlying 2D board with the values in all cells.
+        #fixme
         pass
 
     def find_empty(self):
         # Finds an empty cell and returns its row and col as a tuple (x, y).
+        #fixme
         pass
 
     def check_board(self):
         # Check whether the Sudoku board is solved correctly.
+        #fixme
         pass
 
 
@@ -124,9 +147,9 @@ def create_button(text,pos, font_size):
     return screen.blit(buttontext, textrect)  # returns created button to screen
 
 # creates text on screen
-def screen_text(text, pos, font_size):
+def screen_text(text, pos, font_size, color = BLACK):
     font = pygame.font.SysFont('Ariel', font_size)
-    text = font.render(text, True, (0, 0, 0))
+    text = font.render(text, True, color)
     textrect = text.get_rect()
     textrect.center = (pos)
     return screen.blit(text, textrect) # returns created text on to screen
@@ -175,8 +198,12 @@ def main():
                             reset_button = create_button('Reset',(200, 620), 32)
                             restart_button = create_button('Restart',(300,620), 32)
                             exit_button = create_button('Exit',(400, 620), 32)
-                            Board('easy').draw_grid()
+                            easy_board = Board('easy')
+                            easy_board.draw_grid()
                             pygame.display.update()
+                            game = 'easy'
+
+
 
                         elif medium_button.collidepoint(pygame.mouse.get_pos()): # if user clicks the medium button, medium board will display
                             # displays board
@@ -184,8 +211,10 @@ def main():
                             reset_button = create_button('Reset', (200, 620), 32)
                             restart_button = create_button('Restart', (300, 620), 32)
                             exit_button = create_button('Exit', (400, 620), 32)
-                            Board('medium').draw_grid()
+                            medium_board = Board('medium')
+                            medium_board.draw_grid()
                             pygame.display.update()
+                            game = 'medium'
 
                         if hard_button.collidepoint(pygame.mouse.get_pos()): # if user clicks the hard button, hard board will display
                             # displays board
@@ -193,8 +222,15 @@ def main():
                             reset_button = create_button('Reset', (200, 620), 32)
                             restart_button = create_button('Restart', (300, 620), 32)
                             exit_button = create_button('Exit', (400, 620), 32)
-                            Board('hard').draw_grid()
+                            hard_board = Board('hard')
+                            hard_board.draw_grid()
+
+                            game = 'hard'
+
                             pygame.display.update()
+
+                        time.sleep(0.01) # makes sures the buttons on second screen activated accidentally
+
 
                         if event.type == pygame.MOUSEBUTTONDOWN: # if user clicks again on second screen
                             if exit_button.collidepoint(pygame.mouse.get_pos()): #if user clicks exit button, game is close
@@ -206,6 +242,24 @@ def main():
 
                             if restart_button.collidepoint(pygame.mouse.get_pos()): #if player clicks restart button, they're returned to main screen
                                 main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
