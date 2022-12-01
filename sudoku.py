@@ -269,3 +269,35 @@ def main():
                             if restart_button.collidepoint(
                                     pygame.mouse.get_pos()):  # if player clicks restart button, they're returned to main screen
                                 main()
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            pygame.display.flip()
+
+
+
+
+if __name__ == '__main__':
+    main()
+>>>>>>> 837fb3f013ac13d3a164f5ff70b1fba25cfa1e6d
