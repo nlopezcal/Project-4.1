@@ -113,6 +113,17 @@ class Board:
 
     def is_full(self):
         # Returns a Boolean value indicating whether the board is full or not.
+        total_cell_val = 1
+        for Cell in Board:
+            if Cell.value == None:
+                total_cell_val == 0
+            else:
+                if total_cell_val == 1:
+                    return True
+                elif total_cell_val == 0:
+                    return False
+        # if one or more cells has no assigned value, the function should return false
+        # fixme
         # fixme
         pass
 
@@ -123,11 +134,19 @@ class Board:
 
     def find_empty(self):
         # Finds an empty cell and returns its row and col as a tuple (x, y).
+        x = 0
+        y = 0
+        for Cell in Board:
+            if Cell.value == None:
+                Cell.row = x
+                Cell.col = y
+            return (x, y)
         # fixme
         pass
 
     def check_board(self):
         # Check whether the Sudoku board is solved correctly.
+
         # fixme
         pass
 
