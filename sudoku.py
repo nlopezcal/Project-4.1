@@ -154,6 +154,35 @@ def screen_text(text, pos, font_size, color = BLACK):
     textrect.center = (pos)
     return screen.blit(text, textrect) # returns created text on to screen
 
+def win_screen():
+    screen.fill(WHITE)
+    background = pygame.image.load('sudoku-background.jpg')
+    screen.blit(background, (0,0))
+    screen_text('Game Won!', (300, 100), 85)
+
+    exit_button = create_button('EXIT', (300, 500), 32)
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if exit_button.collidepoint(pygame.mouse.get_pos()):
+                continue
+
+
+def lose_screen():
+    screen.fill(WHITE)
+    background = pygame.image.load('sudoku-background.jpg')
+    screen.blit(background, (0, 0))
+    screen_text('Game Over :(', (300, 300), 65)
+
+    restart_button = create_button('Restart', (300,300), 65)
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if restart_button.collidepoint(pygame.mouse.get_pos()):
+                # fixme
+                # go back into game loop
+                pass
+
+
+
 
 def main():
     while True:
@@ -176,7 +205,7 @@ def main():
         # updates display to screen
         pygame.display.flip()
 
-
+        global running
         running = True  # variable that allows screen to continue playing
         easy_button = create_button('Easy',(200, 600), 40)
         medium_button = create_button('Medium',(300, 600), 40)
@@ -242,6 +271,9 @@ def main():
 
                             if restart_button.collidepoint(pygame.mouse.get_pos()): #if player clicks restart button, they're returned to main screen
                                 main()
+                            
+
+
 
 
 
